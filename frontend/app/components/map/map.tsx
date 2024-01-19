@@ -7,47 +7,21 @@ import Pin from "./pin";
 
 const eventNames = ["onDragStart", "onDrag", "onDragEnd"];
 
-const geojson = {
-  type: "Feature",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [-37.032, 68.913],
-      },
-      properties: {
-        title: "Satellite",
-        description: "Washington",
-      },
-    },
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [-12.414, 17.776],
-      },
-      properties: {
-        title: "Satellite",
-        description: "California",
-      },
-    },
-  ],
-};
-
 const initialViewState = {
   latitude: 52,
   longitude: -2,
   zoom: 0,
 };
 
-export default function MapComponent({ token }) {
+export default function MapComponent({ data }) {
   const [marker, setMarker] = useState({
+    id: 0,
+    name: "name",
     latitude: initialViewState.latitude,
     longitude: initialViewState.longitude,
+    owner: "owner",
   });
   const [events, logEvents] = useState<Record<string, LngLat>>({});
-
   const onMarkerDragStart = useCallback((event: MarkerDragEvent) => {
     logEvents((_events) => ({ ..._events, onDragStart: event.lngLat }));
   }, []);
@@ -65,25 +39,32 @@ export default function MapComponent({ token }) {
     logEvents((_events) => ({ ..._events, onDragEnd: event.lngLat }));
   }, []);
 
+  const multipleMarkers = data.api.map((item, index) => (
+		
+    <Marker
+			key={index}
+      longitude={item.longitude}
+      latitude={item.latitude}
+      anchor="bottom"
+      draggable
+      onDragStart={onMarkerDragStart}
+      onDrag={onMarkerDrag}
+      onDragEnd={onMarkerDragEnd}
+    >
+      <Pin size={20} />
+			{item.name}
+    </Marker>
+  ));
+
   return (
     <>
       <Map
-        mapboxAccessToken={token}
+        mapboxAccessToken={data.mapboxAccessToken}
         initialViewState={initialViewState}
         // style={{ width: "100%", height: 400 }}
         mapStyle="mapbox://styles/mapbox/streets-v9"
       >
-        <Marker
-          longitude={marker.longitude}
-          latitude={marker.latitude}
-          anchor="bottom"
-          draggable
-          onDragStart={onMarkerDragStart}
-          onDrag={onMarkerDrag}
-          onDragEnd={onMarkerDragEnd}
-        >
-          <Pin size={20} />
-        </Marker>
+        {multipleMarkers}
         <NavigationControl />
       </Map>
       <ControlPanel events={events} />

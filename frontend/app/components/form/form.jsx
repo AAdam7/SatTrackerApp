@@ -1,5 +1,12 @@
 import { Form } from "@remix-run/react";
 import { styled } from "styled-components";
+import {
+  formData,
+  useSubmit,
+  useActionData,
+  useLoaderData,
+} from "@remix-run/react";
+import useForm from "./UseForm";
 
 const FromWrapper = styled.div`
   label {
@@ -7,11 +14,34 @@ const FromWrapper = styled.div`
   }
 `;
 
-export default function NewSatellite() {
+export default function NewSatellite({formEndPoint}) {
+  const additionalData = {
+    // sent: new Date().toISOString()
+  };
+
+  const { handleSubmit, status, message } = useForm({ additionalData });
+  if (status === 'success') {
+    return (
+      <>
+        <div>Satellite Added!</div>
+        <div>{message}</div>
+      </>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <>
+        <div>Something bad happened!</div>
+        <div>{message}</div>
+      </>
+    );
+  }
+
   return (
     <FromWrapper>
       <h2>Add a new satellite</h2>
-      <Form method="POST">
+      <Form action={formEndPoint} onSubmit={handleSubmit} method="POST">
         <label>
           Name: <input type="text" name="name" />
         </label>
@@ -24,7 +54,7 @@ export default function NewSatellite() {
         <label>
           Latitude: <input type="number" name="latitude" />
         </label>
-        <input type="submit" value="Add New" />
+        <button type="submit">Add New Sat</button>
       </Form>
     </FromWrapper>
   );

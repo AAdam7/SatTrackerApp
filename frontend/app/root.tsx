@@ -1,27 +1,35 @@
-import { Links, LiveReload, Meta, Outlet, Scripts, redirect, useLoaderData } from "@remix-run/react";
-import Map from './components/map/map'
-import Sidebar from './components/sidebar/sidebar'
-import { createGlobalStyle } from 'styled-components';
-
-import { LinksFunction } from "@remix-run/node"; 
-import stylesUrl from './mapbox-gl.css';
-export const links:LinksFunction = () => {
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  redirect,
+  useLoaderData,
+} from "@remix-run/react";
+import Map from "./components/map/map";
+import Sidebar from "./components/sidebar/sidebar";
+import { styled, createGlobalStyle } from "styled-components";
+import { LinksFunction } from "@remix-run/node";
+import stylesUrl from "./mapbox-gl.css";
+import { MyContext } from "./context";
+export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
 };
 
 export const loader = async () => {
-  return { name: 'SatelliteTrackerApp', mapboxAccessToken: process.env.TOKEN_SECRET }
-}
+  const res = await fetch("http://localhost:1256/satellites");
+  return {
+    api: await res.json(),
+    name: "SatelliteTrackerApp",
+    mapboxAccessToken: process.env.TOKEN_SECRET,
+    formEndPoint: process.env.FORM_ENDPOINT,
+  };
+};
 
 export const action = async ({ request }) => {
   const form = await request.formData();
-  const name = form.get("name");
-  const owner = form.get("owner");
-  const longitude = form.get("longitude");
-  const latitude = form.get("latitude");
-
-  console.log({ name, owner, longitude, latitude });
-  return redirect("/");
+  // return redirect("/");
 };
 
 const GlobalStyle = createGlobalStyle`
@@ -35,7 +43,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default function App() {
-	const data = useLoaderData()
+  const data = useLoaderData();
   return (
     <html>
       <head>
@@ -44,12 +52,12 @@ export default function App() {
         <Links />
       </head>
       <body>
-				<GlobalStyle />
+        <GlobalStyle />
         <Outlet />
+        <Sidebar data={data} />
+        <Map data={data} />
         <Scripts />
-				<LiveReload />
-				<Sidebar/>
-				<Map token={data.mapboxAccessToken}/>
+        <LiveReload />
       </body>
     </html>
   );
