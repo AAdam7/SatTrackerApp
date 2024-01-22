@@ -1,12 +1,8 @@
 import { Form } from "@remix-run/react";
 import { styled } from "styled-components";
-import {
-  formData,
-  useSubmit,
-  useActionData,
-  useLoaderData,
-} from "@remix-run/react";
 import useForm from "./UseForm";
+import { useContext } from "react";
+import { DataContext } from "../../context/dataContext.js";
 
 const FromWrapper = styled.div`
   label {
@@ -14,34 +10,20 @@ const FromWrapper = styled.div`
   }
 `;
 
-export default function NewSatellite({formEndPoint}) {
-  const additionalData = {
-    // sent: new Date().toISOString()
+export default function FormSatellite({ isClicked }) {
+  const { formEndPoint, setState } = useContext(DataContext);
+
+
+  const handleMethod = () => {
+    setState({ formAdditionalData: isClicked ? "put" : "post" });
   };
 
-  const { handleSubmit, status, message } = useForm({ additionalData });
-  if (status === 'success') {
-    return (
-      <>
-        <div>Satellite Added!</div>
-        <div>{message}</div>
-      </>
-    );
-  }
-
-  if (status === 'error') {
-    return (
-      <>
-        <div>Something bad happened!</div>
-        <div>{message}</div>
-      </>
-    );
-  }
-
+  const { handleSubmit, status, message } = useForm();
+  const switchText = isClicked ? "Update" : "Add a new";
   return (
     <FromWrapper>
-      <h2>Add a new satellite</h2>
-      <Form action={formEndPoint} onSubmit={handleSubmit} method="POST">
+      <h2>{switchText} satellite</h2>
+      <Form action={formEndPoint} onSubmit={handleSubmit}>
         <label>
           Name: <input type="text" name="name" />
         </label>
@@ -49,12 +31,14 @@ export default function NewSatellite({formEndPoint}) {
           Owner: <input type="text" name="owner" />
         </label>
         <label>
-          Longitude: <input type="number" name="longitude" />
+          Longitude: <input type="number" step="0.00001" name="longitude" />
         </label>
         <label>
-          Latitude: <input type="number" name="latitude" />
+          Latitude: <input type="number" step="0.00001" name="latitude" />
         </label>
-        <button type="submit">Add New Sat</button>
+        <button type="submit" onClick={handleMethod}>
+          {switchText} Sat
+        </button>
       </Form>
     </FromWrapper>
   );

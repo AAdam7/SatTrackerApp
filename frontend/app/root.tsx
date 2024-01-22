@@ -4,15 +4,16 @@ import {
   Meta,
   Outlet,
   Scripts,
-  redirect,
   useLoaderData,
 } from "@remix-run/react";
 import Map from "./components/map/map";
 import Sidebar from "./components/sidebar/sidebar";
-import { styled, createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import { LinksFunction } from "@remix-run/node";
 import stylesUrl from "./mapbox-gl.css";
-import { MyContext } from "./context";
+import { useState } from "react";
+import { DataContext } from "./context/dataContext.js";
+
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
 };
@@ -21,15 +22,9 @@ export const loader = async () => {
   const res = await fetch("http://localhost:1256/satellites");
   return {
     api: await res.json(),
-    name: "SatelliteTrackerApp",
     mapboxAccessToken: process.env.TOKEN_SECRET,
     formEndPoint: process.env.FORM_ENDPOINT,
   };
-};
-
-export const action = async ({ request }) => {
-  const form = await request.formData();
-  // return redirect("/");
 };
 
 const GlobalStyle = createGlobalStyle`
@@ -43,7 +38,28 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default function App() {
-  const data = useLoaderData();
+  const allData = useLoaderData();
+  const [state, setState] = useState({
+    name: "SatelliteTrackerApp",
+    satMarkers: {
+      [0]: {
+        longitude: 0.01233,
+        latitude: 0.01233,
+      },
+      [1]: {
+        longitude: 20.01233,
+        latitude: 0.01233,
+      },
+      [2]: {
+        longitude: 30.01233,
+        latitude: 0.01233,
+      },
+    },
+    formAdditionalData: false,
+    satelliteRun: false,
+    isClicked: false,
+  });
+
   return (
     <html>
       <head>
@@ -54,8 +70,16 @@ export default function App() {
       <body>
         <GlobalStyle />
         <Outlet />
-        <Sidebar data={data} />
-        <Map data={data} />
+        <DataContext.Provider
+          value={{
+            ...allData,
+            ...state,
+            setState: (data) => setState({ ...state, ...data }),
+          }}
+        >
+          <Sidebar />
+          <Map />
+        </DataContext.Provider>
         <Scripts />
         <LiveReload />
       </body>
