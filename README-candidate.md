@@ -43,5 +43,6 @@ You should see the API on http://localhost:1256/
 You should see the WebApp on http://localhost:3000/
 
 ### Docker
-Build docker image with `mvn spring-boot:build-image`
 1. Run project `docker-compose up`
+
+(If needed, build docker image and jar with `mvn spring-boot:build-image`)
