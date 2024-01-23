@@ -12,6 +12,7 @@
 - Maven (3.9.6)
 - SpringBoot (CLI 3.2.0)
 - Java (17.0.10)
+- Docker (131620)
 
 ### Worked with
 - Node.js (18.15.0)
@@ -24,9 +25,6 @@ SatTrackerApp
 - App to track satellites
 - Edit/add/delete satellites 
 - Due to current app nature some components are more/less complex, for explain please chat with me.
-
-<!-- ![appka1](./assets/appka1.png) -->
-<!-- ![appka2](./assets/appka2.png) -->
 
 ## The Code / Installation
 
@@ -44,5 +42,6 @@ You should see the API on http://localhost:1256/
 
 You should see the WebApp on http://localhost:3000/
 
-### (in progress) Docker
-1. (in progress) `docker-compose up --build` 
+### Docker
+Build docker image with `mvn spring-boot:build-image`
+1. Run project `docker-compose up`

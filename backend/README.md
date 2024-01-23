@@ -3,3 +3,7 @@
 2. Run backend `mvn spring-boot:run`
 
 You should see the API on http://localhost:1256/
+
+### Docker
+Build docker image with `mvn spring-boot:build-image`
+1. Run project `docker-compose up`

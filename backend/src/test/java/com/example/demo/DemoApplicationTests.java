@@ -22,29 +22,4 @@ class MainApplicationTests {
     satellite.setOwner("testOwne");
     return satellite;
   }
-
-	// private String createSatelliteAsUri(Satellite satellite) {
-  //   Response response = RestAssured.given()
-  //     .contentType(MediaType.APPLICATION_JSON_VALUE)
-  //     .body(satellite)
-  //     .post(API_ROOT);
-  //   return API_ROOT + "/" + response.jsonPath().get("id");
-  // }
-
-	// @Test
-	// public void whenCreateNewSatellite_thenCreated() {
-	// 		Satellite satellite = addSatellite();
-	// 		Response response = RestAssured.given()
-	// 			.contentType(MediaType.APPLICATION_JSON_VALUE)
-	// 			.body(satellite)
-	// 			.post(API_ROOT);
-			
-	// 		assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
-	// }
-
-	// @Test
-	// public void whenGetAllSatellites_thenOK() {
-  //   Response response = RestAssured.get(API_ROOT);
-  //   assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-	// }
 }
