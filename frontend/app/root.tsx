@@ -10,8 +10,9 @@ import Map from "./components/map/map";
 import Sidebar from "./components/sidebar/sidebar";
 import { createGlobalStyle } from "styled-components";
 import { LinksFunction } from "@remix-run/node";
-import stylesUrl from "./mapbox-gl.css";
-import { useState } from "react";
+import stylesUrl from "mapbox-gl/src/css/mapbox-gl.css";
+import { MapProvider } from "react-map-gl";
+import { useState, useContext } from "react";
 import { DataContext } from "./context/dataContext.js";
 
 export const links: LinksFunction = () => {
@@ -34,6 +35,8 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-family: Open-Sans, Helvetica, Sans-Serif;
+		font-size: 12px;
+		text-transform: uppercase;
   }
 `;
 
@@ -53,6 +56,12 @@ export default function App() {
       [2]: {
         longitude: 30.01233,
         latitude: 0.01233,
+      },
+    },
+    pointData: {
+      [0]: {
+        longitude: 0,
+        latitude: 0,
       },
     },
     formAdditionalData: false,

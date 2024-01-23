@@ -21,8 +21,8 @@
 
 ## Overview
 SatTrackerApp
-- App to track satellites (in progress)
-- Edit/add/delete satellites (in progress)
+- App to track satellites
+- Edit/add/delete satellites 
 - Due to current app nature some components are more/less complex, for explain please chat with me.
 
 <!-- ![appka1](./assets/appka1.png) -->

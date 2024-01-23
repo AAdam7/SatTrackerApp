@@ -3,7 +3,7 @@ import { DataContext } from "../../context/dataContext.js";
 import { useRevalidator } from "@remix-run/react";
 
 function useForm() {
-	const {formAdditionalData, isClicked, setState } = useContext(DataContext);
+  const { formAdditionalData, isClicked, setState } = useContext(DataContext);
   const [status, setStatus] = useState("");
   const [message, setMessage] = useState("");
   const revalidator = useRevalidator();
@@ -32,21 +32,17 @@ function useForm() {
           method: "DELETE",
         })
           .then((response) => {
-            // due to cors...
-            // if (response.status !== 200) {
-            //   throw new Error(response.statusText);
-            // }
-            // return response.json();
+            // due to cors... removed
           })
-					.then(() => {
-						setMessage("Check list/api");
-						setStatus("success");
-						handleLoad();
-					})
-					.catch((err) => {
-						setMessage(err.toString());
-						setStatus("error");
-					});
+          .then(() => {
+            setMessage("Check list/api");
+            setStatus("success");
+            handleLoad();
+          })
+          .catch((err) => {
+            setMessage(err.toString());
+            setStatus("error");
+          });
         break;
 
       case "post":
@@ -56,25 +52,22 @@ function useForm() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(dataAPI),
-        }).then((response) => {
-          // due to cors...
-          // if (response.status !== 200) {
-          //   throw new Error(response.statusText);
-          // }
-          // return response.json();
         })
-				.then(() => {
-					setMessage("Check list/api");
-					setStatus("success");
-					handleLoad();
-				})
-				.catch((err) => {
-					setMessage(err.toString());
-					setStatus("error");
-				});
-        
-				setState({ isClicked: false });
-				
+          .then((response) => {
+            // due to cors... removed
+          })
+          .then(() => {
+            setMessage("Check list/api");
+            setStatus("success");
+            handleLoad();
+          })
+          .catch((err) => {
+            setMessage(err.toString());
+            setStatus("error");
+          });
+
+        setState({ isClicked: false });
+
         break;
 
       case "put":
@@ -86,24 +79,20 @@ function useForm() {
           body: JSON.stringify(dataAPI),
         })
           .then((response) => {
-            // due to cors...
-            // if (response.status !== 200) {
-            //   throw new Error(response.statusText);
-            // }
-            // return response.json();
+            // due to cors... removed
           })
           .then(() => {
             setMessage("Check list/api");
             setStatus("success");
-						handleLoad();
+            handleLoad();
           })
           .catch((err) => {
             setMessage(err.toString());
             setStatus("error");
           });
-        
-				setState({ isClicked: false });
-				
+
+        setState({ isClicked: false });
+
         break;
     }
   };

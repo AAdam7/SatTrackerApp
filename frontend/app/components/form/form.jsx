@@ -1,18 +1,19 @@
 import { Form } from "@remix-run/react";
-import { styled } from "styled-components";
 import useForm from "./UseForm";
 import { useContext } from "react";
 import { DataContext } from "../../context/dataContext.js";
+import { styled } from "styled-components";
+import { ButtonsWrap } from "../sidebar/sidebar.style.jsx";
 
 const FromWrapper = styled.div`
   label {
     display: block;
+    padding: 10px 0;
   }
 `;
 
 export default function FormSatellite({ isClicked }) {
   const { formEndPoint, setState } = useContext(DataContext);
-
 
   const handleMethod = () => {
     setState({ formAdditionalData: isClicked ? "put" : "post" });
@@ -36,9 +37,11 @@ export default function FormSatellite({ isClicked }) {
         <label>
           Latitude: <input type="number" step="0.00001" name="latitude" />
         </label>
-        <button type="submit" onClick={handleMethod}>
-          {switchText} Sat
-        </button>
+        <ButtonsWrap>
+          <button type="submit" onClick={handleMethod}>
+            {switchText} Sat
+          </button>
+        </ButtonsWrap>
       </Form>
     </FromWrapper>
   );

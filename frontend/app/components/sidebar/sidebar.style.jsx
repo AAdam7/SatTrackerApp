@@ -1,8 +1,9 @@
-const SidebarWrap = styled.div`
+import { styled } from "styled-components";
+export const SidebarWrap = styled.div`
   color: #6b6b76;
   text-transform: uppercase;
 `;
-const Sidebar = styled.div`
+export const Sidebar = styled.div`
   position: absolute;
   z-index: 100;
   left: 0;
@@ -11,15 +12,17 @@ const Sidebar = styled.div`
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   padding: 0 24px;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 2;
   color: #6b6b76;
-  text-transform: uppercase;
   outline: none;
   display: flex;
   flex-flow: column;
+  p {
+    margin: 0;
+  }
 `;
-const FormSatelliteWrap = styled.div`
+export const FormSatelliteWrap = styled.div`
   position: absolute;
   left: 50%;
   top: 50%;
@@ -27,10 +30,10 @@ const FormSatelliteWrap = styled.div`
   padding: 20px;
   z-index: 999;
   background-color: white;
-  border: 1px black solid;
+  border: 1px #aaa solid;
   border-radius: 10px;
 `;
-const Warning = styled.div`
+export const Warning = styled.div`
   position: absolute;
   top: 0;
   margin: 100% 0;
@@ -40,14 +43,18 @@ const Warning = styled.div`
   border: 1px black solid;
   border-radius: 10px;
 `;
-const SatelliteLi = styled.li`
+export const SatelliteLi = styled.li`
   background-color: lightgrey;
-  padding: 20px;
+  padding: 10px;
   margin-bottom: 20px;
+  border-radius: 10px;
 `;
-const SatelliteUl = styled.ul`
+export const SatelliteUl = styled.ul`
   overflow-x: hidden;
   overflow-y: auto;
   list-style-type: none;
   padding-left: 0;
+`;
+export const ButtonsWrap = styled.div`
+  padding: 10px 0;
 `;

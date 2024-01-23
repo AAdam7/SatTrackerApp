@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { LngLat } from "react-map-gl";
+import type {} from "react-map-gl";
 import { styled } from "styled-components";
 
 const eventNames = ["onDragStart", "onDrag", "onDragEnd"];
@@ -28,6 +28,7 @@ function ControlPanel(props: { events: Record<string, LngLat> }) {
   return (
     <ControlPanelBlock>
       <h3>Satellite Markers</h3>
+      <p>(feature under development)</p>
       <p>Try dragging the Satellite to another location.</p>
       <div>
         {eventNames.map((eventName) => {
