@@ -1,11 +1,10 @@
 import * as React from "react";
-import { useState, useEffect, useMemo, useCallback, useContext } from "react";
-import { Map, Source, Layer, NavigationControl } from "react-map-gl";
+import { useState, useContext } from "react";
+import { Map, Source, Layer, CircleLayer } from "react-map-gl";
 import { AnimationEffect } from "./animation.jsx";
 import ControlPanel from "./control-panel";
 import Pin from "./pin";
 import { DataContext } from "../../context/dataContext.js";
-import type { CircleLayer } from "react-map-gl";
 import type { FeatureCollection } from "geojson";
 
 const eventNames = ["onDragStart", "onDrag", "onDragEnd"];
@@ -16,11 +15,12 @@ const initialViewState = {
 };
 
 export default function MapComponent() {
-  const [pointDatawe, setPointData] = useState(null);
-  const { api, satMarkers, mapboxAccessToken, setState } =
-    useContext(DataContext);
+  const [pointDataAnim, setPointDataAnim] = useState(null);
+  const { api, collision, mapboxAccessToken } = useContext(DataContext);
 
   const [events, logEvents] = useState<Record<string, LngLat>>({});
+
+  AnimationEffect(setPointDataAnim, pointDataAnim);
 
   const geojson: FeatureCollection = {
     type: "FeatureCollection",
@@ -29,21 +29,22 @@ export default function MapComponent() {
       geometry: {
         type: "Point",
         coordinates: [
-          pointDatawe?.geometry[index]?.coordinates[0],
-          pointDatawe?.geometry[index]?.coordinates[1],
+          pointDataAnim?.geometry[index]?.coordinates[0],
+          pointDataAnim?.geometry[index]?.coordinates[1],
         ],
       },
     })),
   };
 
-  AnimationEffect(setPointData);
-
+	//collision is only for two first satellites, and layers change for all satellites... for test/etc
   const layerStyle: CircleLayer = {
     id: "point",
     type: "circle",
     paint: {
-      "circle-radius": 10,
-      "circle-color": "#007cbf",
+      "circle-radius": 5,
+      "circle-color": collision.detect
+        ? collision.colour.detect
+        : collision.colour.normal,
     },
   };
 

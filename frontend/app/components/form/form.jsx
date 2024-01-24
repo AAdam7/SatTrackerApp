@@ -3,7 +3,7 @@ import useForm from "./UseForm";
 import { useContext } from "react";
 import { DataContext } from "../../context/dataContext.js";
 import { styled } from "styled-components";
-import { ButtonsWrap } from "../sidebar/sidebar.style.jsx";
+import { ButtonsWrap, Button } from "../sidebar/sidebar.style.jsx";
 
 const FromWrapper = styled.div`
   label {
@@ -20,10 +20,10 @@ export default function FormSatellite({ isClicked }) {
   };
 
   const { handleSubmit, status, message } = useForm();
-  const switchText = isClicked ? "Update" : "Add a new";
+  const switchText = isClicked ? "Update" : "Add";
   return (
     <FromWrapper>
-      <h2>{switchText} satellite</h2>
+      <h2>{switchText} Satellite</h2>
       <Form action={formEndPoint} onSubmit={handleSubmit}>
         <label>
           Name: <input type="text" name="name" />
@@ -38,9 +38,9 @@ export default function FormSatellite({ isClicked }) {
           Latitude: <input type="number" step="0.00001" name="latitude" />
         </label>
         <ButtonsWrap>
-          <button type="submit" onClick={handleMethod}>
-            {switchText} Sat
-          </button>
+          <Button type="submit" onClick={handleMethod}>
+            {switchText} Satellite
+          </Button>
         </ButtonsWrap>
       </Form>
     </FromWrapper>

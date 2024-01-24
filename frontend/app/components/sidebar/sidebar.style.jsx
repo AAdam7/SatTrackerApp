@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+
 export const SidebarWrap = styled.div`
   color: #6b6b76;
   text-transform: uppercase;
@@ -7,11 +8,11 @@ export const Sidebar = styled.div`
   position: absolute;
   z-index: 100;
   left: 0;
-  height: 100%;
+  height: calc(100% - 20px);
   width: 250px;
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  padding: 0 24px;
+  padding: 10px 24px;
   font-size: 12px;
   line-height: 2;
   color: #6b6b76;
@@ -57,4 +58,8 @@ export const SatelliteUl = styled.ul`
 `;
 export const ButtonsWrap = styled.div`
   padding: 10px 0;
+`;
+
+export const Button = styled.button`
+  padding: 10px 10px;
 `;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import type {} from "react-map-gl";
+// import type {} from "react-map-gl";
 import { styled } from "styled-components";
 
 const eventNames = ["onDragStart", "onDrag", "onDragEnd"];

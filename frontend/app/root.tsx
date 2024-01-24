@@ -67,6 +67,13 @@ export default function App() {
     formAdditionalData: false,
     satelliteRun: false,
     isClicked: false,
+    collision: {
+      detect: false,
+      colour: {
+        normal: "#007cbf",
+        detect: "#bf0000",
+      },
+    },
   });
 
   return (

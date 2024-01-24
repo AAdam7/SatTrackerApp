@@ -1,8 +1,6 @@
 import FormSatellite from "../form/form";
 import { useState, useContext } from "react";
 import { DataContext } from "../../context/dataContext.js";
-
-import { styled } from "styled-components";
 import useForm from "./../form/UseForm";
 import {
   SidebarWrap,
@@ -11,7 +9,8 @@ import {
   Warning,
   SatelliteLi,
   SatelliteUl,
-	ButtonsWrap
+	ButtonsWrap,
+	Button
 } from "./sidebar.style.jsx";
 
 function SideBar() {
@@ -43,20 +42,20 @@ function SideBar() {
           Are you sure you want to delete the satellite - {isDelete.target.name}{" "}
           ?
         </div>
-        <button
+        <Button
           id={isDelete.target.id}
           name={"delete"}
           onClick={(isDelete) => handleDelete(isDelete)}
         >
           Continue
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={(e) => {
             warningModal(e);
           }}
         >
           Cancel
-        </button>
+        </Button>
       </Warning>
     );
   };
@@ -77,24 +76,24 @@ function SideBar() {
                 {item.owner}
               </p>
               <p>
-                <strong>Lng:</strong>
+                <strong>Lng: </strong>
                 {item.longitude}
               </p>
               <p>
-                <strong>Lat:</strong>
+                <strong>Lat: </strong>
                 {item.latitude}
               </p>
               <ButtonsWrap>
-                <button id={item.id} onClick={(e) => showEditForm(e)}>
+                <Button id={item.id} onClick={(e) => showEditForm(e)}>
                   Edit
-                </button>
-                <button
+                </Button>
+                <Button
                   name={item.name}
                   id={item.id}
                   onClick={(e) => warningModal(e)}
                 >
                   Delete
-                </button>
+                </Button>
               </ButtonsWrap>
             </SatelliteLi>
           ))}
@@ -112,13 +111,13 @@ function SideBar() {
         </FormSatelliteWrap>
       )}
       <Sidebar>
-        <button
+        <Button
           onClick={(e) => {
             showEditForm(e);
           }}
         >
           Add Satellite
-        </button>
+        </Button>
         <SatellitesComponent />
       </Sidebar>
     </SidebarWrap>

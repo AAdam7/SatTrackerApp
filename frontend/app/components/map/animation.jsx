@@ -1,24 +1,66 @@
 import { useState, useEffect, useMemo, useCallback, useContext } from "react";
 import { DataContext } from "../../context/dataContext.js";
 
-export const AnimationEffect = (setPointData) => {
-  const { api } = useContext(DataContext);
+export const AnimationEffect = (setPointDataAnim, pointDataAnim) => {
+  const { api, collision, setState } = useContext(DataContext);
 
   useEffect(() => {
     const animation = requestAnimationFrame(() =>
-      setPointData({
+      setPointDataAnim({
         geometry: api.map((item, index) =>
           moveOnLine({
-            center: [api[index].longitude, api[index].latitude],
+            center: [item.longitude, item.latitude],
             angle: Date.now() / 2000 / [index + 1],
             radius: 150,
           })
         ),
       })
     );
+    distance(pointDataAnim, collision, setState);
     return () => cancelAnimationFrame(animation);
   });
 };
+
+// instead distance() use turf tool/lib...
+function distance(pointDataAnim, collision, setState) {
+  if (
+    pointDataAnim?.geometry[0]?.coordinates[0] ==
+      pointDataAnim?.geometry[1]?.coordinates[0] &&
+    pointDataAnim?.geometry[0]?.coordinates[1] ==
+      pointDataAnim?.geometry[1]?.coordinates[1]
+  ) {
+    return 0;
+  } else {
+    var radius1lt =
+      (Math.PI * pointDataAnim?.geometry[0]?.coordinates[0]) / 180;
+    var radius2lt =
+      (Math.PI * pointDataAnim?.geometry[1]?.coordinates[0]) / 180;
+    var lg2diff =
+      pointDataAnim?.geometry[0]?.coordinates[1] -
+      pointDataAnim?.geometry[1]?.coordinates[1];
+    var radiusDiff = (Math.PI * lg2diff) / 180;
+    var measure =
+      Math.sin(radius1lt) * Math.sin(radius2lt) +
+      Math.cos(radius1lt) * Math.cos(radius2lt) * Math.cos(radiusDiff);
+    if (measure > 1) {
+      measure = 1;
+    }
+    measure = Math.acos(measure);
+    measure = (measure * 180) / Math.PI;
+    measure = measure * 60 * 1.1515; // M
+    // if (unit=="KM") { measure = measure * 1.609344 }
+    measure = measure * 1.609344;
+    // if (unit=="NM") { measure = measure * 0.8684 }
+    if (measure <= 1000 && collision.detect === false) {
+      setState({ collision: { ...collision, detect: true } });
+      return measure.toFixed(2);
+    } else {
+      if (measure >= 1000 && collision.detect === true) {
+        setState({ collision: { ...collision, detect: false } });
+      }
+    }
+  }
+}
 
 function moveOnCircle({ center, from, angle, radius }) {
   return {
