@@ -1,17 +1,19 @@
 # ⚙ SatTrackerApp ⚙
-
+![Satellite Tracker](./frontend/assets/globe.png)
 ## TechStack
 ### FrontEnd
 - JS/TS
 - Remix/ReactJS
 - Styled-components
 - RTL/Jest (in progress)
+- ThreeJS (inprogress)
 
 ### BackEnd
 - Maven (3.9.6)
 - SpringBoot (CLI 3.2.0)
 - Java (17.0.10)
 - Docker (131620)
+- no DB yet
 
 ### Worked with
 - Node.js (18.15.0)
@@ -21,7 +23,7 @@
 
 ## Overview
 SatTrackerApp
-- App to track satellites
+- App to track custom satellites or any other orbital 3D objects (4fun)
 - Edit/add/delete satellites 
 - Due to current app nature some components are more/less complex, for explain please chat with me.
 
