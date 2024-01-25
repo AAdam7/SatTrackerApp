@@ -1,5 +1,5 @@
 import FormSatellite from "../form/form";
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { DataContext } from "../../context/dataContext.js";
 import useForm from "./../form/UseForm";
 import {
@@ -9,19 +9,25 @@ import {
   Warning,
   SatelliteLi,
   SatelliteUl,
-	ButtonsWrap,
-	Button
+  ButtonsWrap,
+  Button,
 } from "./sidebar.style.jsx";
 
 function SideBar() {
   const [isDelete, setIsDelete] = useState();
-  const { api, isClicked, setState } = useContext(DataContext);
+  const { api, isClicked, satelliteRun, setState } = useContext(DataContext);
   const { handleSubmit, status, message } = useForm(isDelete);
 
   const handleDelete = (e) => {
     e.preventDefault();
     handleSubmit(e);
     isDelete ? setIsDelete() : setIsDelete(e);
+  };
+
+  const handleStop = () => {
+    !satelliteRun.stop
+      ? setState({ ...satelliteRun, satelliteRun: { stop: true } })
+      : setState({ ...satelliteRun, satelliteRun: { stop: false } });
   };
 
   const showEditForm = (e) => {
@@ -117,6 +123,13 @@ function SideBar() {
           }}
         >
           Add Satellite
+        </Button>
+        <Button
+          onClick={() => {
+            handleStop();
+          }}
+        >
+          <strong>{!satelliteRun.stop ? "PAUSE" : "RESUME"}</strong>
         </Button>
         <SatellitesComponent />
       </Sidebar>

@@ -69,7 +69,10 @@ export default function App() {
       },
     },
     formAdditionalData: false,
-    satelliteRun: false,
+    satelliteRun: {
+      stop: false,
+      time: 0,
+    },
     isClicked: false,
     collision: {
       detect: false,

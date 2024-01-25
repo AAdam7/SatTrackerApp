@@ -2,23 +2,24 @@ import { useState, useEffect, useMemo, useCallback, useContext } from "react";
 import { DataContext } from "../../context/dataContext.js";
 
 export const AnimationEffect = (setPointDataAnim, pointDataAnim) => {
-  const { api, collision, setState } = useContext(DataContext);
+  const { api, collision, satelliteRun, setState } = useContext(DataContext);
 
   useEffect(() => {
-    const animation = requestAnimationFrame(() =>
-      setPointDataAnim({
-        ...pointDataAnim,
-        geometry: api.map((item, index) =>
-          moveOnLine({
-            center: [item.longitude, item.latitude],
-            angle: (Date.now() / 2000) * [index + 3],
-            radius: 1 * [index + 1],
-          })
-        ),
-      })
-    );
+    const animation =
+      !satelliteRun.stop &&
+      requestAnimationFrame(() =>
+        setPointDataAnim({
+          ...pointDataAnim,
+          geometry: api.map((item, index) =>
+            moveOnLine({
+              center: [item.longitude, item.latitude],
+              angle: (Date.now() / 2000) * [index + 3],
+              radius: 1 * [index + 1],
+            })
+          ),
+        })
+      );
     distance(pointDataAnim, collision, setState);
-    console.log(pointDataAnim);
     return () => cancelAnimationFrame(animation);
   });
 };
@@ -45,9 +46,7 @@ function distance(pointDataAnim, collision, setState) {
     measure = Math.acos(measure);
     measure = (measure * 180) / Math.PI;
     measure = measure * 60 * 1.1515; // M
-    // if (unit=="KM") { measure = measure * 1.609344 }
     measure = measure * 1.609344;
-    // if (unit=="NM") { measure = measure * 0.8684 }
     if (measure <= 1000 && collision.detect === false) {
       setState({ collision: { ...collision, detect: true } });
       return measure.toFixed(2);
