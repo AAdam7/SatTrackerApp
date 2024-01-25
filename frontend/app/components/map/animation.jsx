@@ -9,15 +9,16 @@ export const AnimationEffect = (setPointDataAnim, pointDataAnim) => {
       setPointDataAnim({
         ...pointDataAnim,
         geometry: api.map((item, index) =>
-          moveOnLine({
-            center: [item.longitude, item.latitude],
-            angle: (Date.now() / 2000) * [index + 1],
+          moveOnLine2({
+            center: [item.latitude, item.longitude],
+            angle: (Date.now() / 1000) * [index + 3],
             radius: 10 * [index + 1],
           })
         ),
       })
     );
     distance(pointDataAnim, collision, setState);
+    console.log(pointDataAnim);
     return () => cancelAnimationFrame(animation);
   });
 };
@@ -58,17 +59,7 @@ function distance(pointDataAnim, collision, setState) {
   }
 }
 
-function moveOnCircle({ center, from, angle, radius }) {
-  return {
-    type: "Point",
-    coordinates: [
-      center[0] + Math.cos(angle) * radius,
-      center[1] + Math.sin(angle) * radius,
-    ],
-  };
-}
-
-function moveOnLine({ center, angle, radius }) {
+function moveOnCircle({ center, angle, radius }) {
   return {
     type: "Point",
     coordinates: [
@@ -82,8 +73,8 @@ function moveOnLine2({ center, angle, radius, index }) {
   return {
     type: "Point",
     coordinates: [
-      center[0] > 180 ? (center[0] = -180) : (center[0] += 0.4),
-      (center[1] += 0.033 + [index]),
+      (center[0] += center[0] * angle) % 360,
+      (center[1] += 2 * angle) % 180,
     ],
   };
 }
