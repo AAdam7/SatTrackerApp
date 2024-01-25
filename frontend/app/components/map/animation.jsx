@@ -7,11 +7,12 @@ export const AnimationEffect = (setPointDataAnim, pointDataAnim) => {
   useEffect(() => {
     const animation = requestAnimationFrame(() =>
       setPointDataAnim({
+        ...pointDataAnim,
         geometry: api.map((item, index) =>
           moveOnLine({
             center: [item.longitude, item.latitude],
-            angle: Date.now() / 2000 / [index + 1],
-            radius: 150,
+            angle: (Date.now() / 2000) * [index + 1],
+            radius: 10 * [index + 1],
           })
         ),
       })
@@ -23,21 +24,16 @@ export const AnimationEffect = (setPointDataAnim, pointDataAnim) => {
 
 // instead distance() use turf tool/lib...
 function distance(pointDataAnim, collision, setState) {
-  if (
-    pointDataAnim?.geometry[0]?.coordinates[0] ==
-      pointDataAnim?.geometry[1]?.coordinates[0] &&
-    pointDataAnim?.geometry[0]?.coordinates[1] ==
-      pointDataAnim?.geometry[1]?.coordinates[1]
-  ) {
+  let lat1 = pointDataAnim?.geometry[0]?.coordinates[0];
+  let lat2 = pointDataAnim?.geometry[1]?.coordinates[0];
+  let lon1 = pointDataAnim?.geometry[0]?.coordinates[1];
+  let lon2 = pointDataAnim?.geometry[1]?.coordinates[1];
+  if (lat1 == lat2 && lon1 == lon2) {
     return 0;
   } else {
-    var radius1lt =
-      (Math.PI * pointDataAnim?.geometry[0]?.coordinates[0]) / 180;
-    var radius2lt =
-      (Math.PI * pointDataAnim?.geometry[1]?.coordinates[0]) / 180;
-    var lg2diff =
-      pointDataAnim?.geometry[0]?.coordinates[1] -
-      pointDataAnim?.geometry[1]?.coordinates[1];
+    var radius1lt = (Math.PI * lat1) / 180;
+    var radius2lt = (Math.PI * lat2) / 180;
+    var lg2diff = lon1 - lon2;
     var radiusDiff = (Math.PI * lg2diff) / 180;
     var measure =
       Math.sin(radius1lt) * Math.sin(radius2lt) +

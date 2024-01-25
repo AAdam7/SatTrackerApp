@@ -47,15 +47,19 @@ export default function App() {
     satMarkers: {
       [0]: {
         longitude: 0.01233,
-        latitude: 0.01233,
+        latitude: 79.01233,
       },
       [1]: {
         longitude: 20.01233,
-        latitude: 0.01233,
+        latitude: -20.01233,
       },
       [2]: {
-        longitude: 30.01233,
-        latitude: 0.01233,
+        longitude: -1.01233,
+        latitude: 30.01233,
+      },
+      [3]: {
+        longitude: 99.3331,
+        latitude: 21.31233,
       },
     },
     pointData: {
