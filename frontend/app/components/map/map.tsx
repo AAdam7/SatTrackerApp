@@ -11,7 +11,7 @@ const eventNames = ["onDragStart", "onDrag", "onDragEnd"];
 const initialViewState = {
   latitude: 30,
   longitude: 20,
-  zoom: 1.5,
+  zoom: 0.8,
   center: [70, 70],
   projection: "globe",
 };

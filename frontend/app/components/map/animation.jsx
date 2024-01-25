@@ -9,10 +9,10 @@ export const AnimationEffect = (setPointDataAnim, pointDataAnim) => {
       setPointDataAnim({
         ...pointDataAnim,
         geometry: api.map((item, index) =>
-          moveOnLine2({
-            center: [item.latitude, item.longitude],
-            angle: (Date.now() / 1000) * [index + 3],
-            radius: 10 * [index + 1],
+          moveOnLine({
+            center: [item.longitude, item.latitude],
+            angle: (Date.now() / 2000) * [index + 3],
+            radius: 1 * [index + 1],
           })
         ),
       })
@@ -69,12 +69,12 @@ function moveOnCircle({ center, angle, radius }) {
   };
 }
 
-function moveOnLine2({ center, angle, radius, index }) {
+function moveOnLine({ center, angle, radius, index }) {
   return {
     type: "Point",
     coordinates: [
-      (center[0] += center[0] * angle) % 360,
-      (center[1] += 2 * angle) % 180,
+      (center[1] += center[1] * angle) % 360,
+      (center[0] += 1.5 * angle) % 360,
     ],
   };
 }
